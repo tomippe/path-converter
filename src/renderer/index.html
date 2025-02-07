@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>パス変換ツール</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 15px;
+            background: #E5E5E5;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .path-group {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 2px;
+        }
+        .path-input {
+            flex: 1;
+            font-size: 13px;
+            padding: 3px 8px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+        }
+        .path-input:focus {
+            outline: none;
+        }
+        .path-input:hover {
+            cursor: text;
+            user-select: all;
+        }
+        button {
+            min-width: 140px;
+            font-size: 13px;
+            white-space: nowrap;
+            padding: 3px 12px;
+            border: 0.5px solid rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+            background: linear-gradient(to bottom, #ffffff, #f7f7f7);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+        }
+        button:active {
+            background: linear-gradient(to bottom, #3478F6, #0364E3);
+            border-color: #0364E3;
+            color: white;
+        }
+        button.copied {
+            background: linear-gradient(to bottom, #3478F6, #0364E3);
+            border-color: #0364E3;
+            color: white;
+        }
+        #dropZone {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            background: #ffffff;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        #dropZone:hover {
+            background: #f8f8f8;
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+        #dropZone.dragover {
+            background: #f0f7ff;
+            border-color: #3478F6;
+            box-shadow: 0 0 0 3px rgba(52, 120, 246, 0.1);
+        }
+        #dropZone.has-file {
+            background: #f0f7ff;
+            border-color: #3478F6;
+        }
+        .file-info {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            padding: 4px;
+        }
+        .file-info.visible {
+            display: flex;
+        }
+        .file-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #007AFF;
+            font-size: 32px;
+        }
+        .file-name {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+        .drop-message {
+            font-size: 14px;
+            color: #666;
+        }
+        .base-path {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.03);
+            padding: 8px;
+            border-radius: 8px;
+        }
+        .base-path button {
+            width: auto;
+        }
+        .base-path-input {
+            flex: 1;
+            font-size: 13px;
+            padding: 3px 8px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+        }
+        .base-path-input:focus {
+            outline: none;
+        }
+        .base-path-input:hover {
+            cursor: text;
+            user-select: all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="dropZone">
+            <div class="file-info">
+                <div class="file-icon">📄</div>
+                <div class="file-name"></div>
+            </div>
+            <div class="drop-message">ファイルやフォルダをドロップするか、クリックして選択してください</div>
+        </div>
+
+        <div class="base-path">
+            <button onclick="selectBasePath()">起点フォルダを選択</button>
+            <input type="text" id="basePath" class="base-path-input" readonly placeholder="相対パスの起点となるフォルダを選択してください">
+        </div>
+
+        <div class="path-group">
+            <button onclick="copyPath('unixRelativePath')">UNIX相対</button>
+            <input type="text" id="unixRelativePath" class="path-input" readonly>
+        </div>
+
+        <div class="path-group">
+            <button onclick="copyPath('unixPath')">UNIX完全</button>
+            <input type="text" id="unixPath" class="path-input" readonly>
+        </div>
+
+        <div class="path-group">
+            <button onclick="copyPath('htmlRelativePath')">HTML相対</button>
+            <input type="text" id="htmlRelativePath" class="path-input" readonly>
+        </div>
+
+        <div class="path-group">
+            <button onclick="copyPath('htmlPath')">HTML完全</button>
+            <input type="text" id="htmlPath" class="path-input" readonly>
+        </div>
+
+        <div class="path-group">
+            <button onclick="copyPath('windowsRelativePath')">Windows相対</button>
+            <input type="text" id="windowsRelativePath" class="path-input" readonly>
+        </div>
+
+        <div class="path-group">
+            <button onclick="copyPath('windowsPath')">Windows完全</button>
+            <input type="text" id="windowsPath" class="path-input" readonly>
+        </div>
+
+        <div class="path-group">
+            <button onclick="copyPath('fmRelativePath')">FM相対</button>
+            <input type="text" id="fmRelativePath" class="path-input" readonly>
+        </div>
+
+        <div class="path-group">
+            <button onclick="copyPath('fmMacRelativePath')">FM Mac相対</button>
+            <input type="text" id="fmMacRelativePath" class="path-input" readonly>
+        </div>
+
+        <div class="path-group">
+            <button onclick="copyPath('fmMacFullPath')">FM Mac完全</button>
+            <input type="text" id="fmMacFullPath" class="path-input" readonly>
+        </div>
+
+        <div class="path-group">
+            <button onclick="copyPath('fmWinRelativePath')">FM Win相対</button>
+            <input type="text" id="fmWinRelativePath" class="path-input" readonly>
+        </div>
+
+        <div class="path-group">
+            <button onclick="copyPath('fmWinFullPath')">FM Win完全</button>
+            <input type="text" id="fmWinFullPath" class="path-input" readonly>
+        </div>
+    </div>
+    <script src="renderer.js"></script>
+</body>
+</html> 

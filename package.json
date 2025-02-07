@@ -1,0 +1,71 @@
+{
+  "name": "path-converter",
+  "version": "1.0.0",
+  "description": "パス変換ツール",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --debug",
+    "build": "electron-builder",
+    "build:mac": "electron-builder --mac --universal",
+    "build:win": "electron-builder --win --universal"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@electron/notarize": "^2.1.0",
+    "dotenv": "^16.4.7",
+    "electron": "25.9.8",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "jp.tomippe.pathconverter",
+    "productName": "Path Converter",
+    "artifactName": "${name}_${version}_${os}.${ext}",
+    "asar": false,
+    "files": [
+      "src",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "mac": {
+      "category": "public.app-category.utilities",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "icon": "build/icon.icns",
+      "target": [
+        "zip"
+      ],
+      "identity": "TOMIHIDE OTA",
+      "provisioningProfile": null,
+      "strictVerify": false,
+      "extendInfo": {
+        "CFBundleDocumentTypes": [
+          {
+            "CFBundleTypeName": "All Files",
+            "CFBundleTypeRole": "Viewer",
+            "LSHandlerRank": "Alternate",
+            "LSItemContentTypes": [
+              "public.item",
+              "public.folder"
+            ],
+            "LSIsAppleDefaultForType": true
+          }
+        ],
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLName": "File",
+            "CFBundleURLSchemes": [
+              "file"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

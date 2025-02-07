@@ -1,0 +1,11 @@
+{
+  "name": "path-converter",
+  "version": "1.0.0",
+  "description": "パス変換ツール",
+  "main": "./main.js",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "image-size": "^1.2.0"
+  }
+}
