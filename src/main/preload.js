@@ -42,6 +42,8 @@ try {
             });
         },
         writeToClipboard: (text) => ipcRenderer.invoke('write-to-clipboard', text),
+        readFromClipboard: () => ipcRenderer.invoke('read-from-clipboard'),
+        getSystemLocale: () => ipcRenderer.invoke('get-system-locale'),
         getFileInfo: (filePath) => ipcRenderer.invoke('get-file-info', filePath)
     });
 

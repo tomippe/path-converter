@@ -1,0 +1,70 @@
+{
+  "title": "Path Converter",
+  "input": {
+    "label": "Input Path",
+    "placeholder": "Enter path to convert",
+    "pasteButton": "Paste from Clipboard",
+    "clearButton": "Clear",
+    "dropzone": {
+      "message": "Drop a file here or click to select",
+      "selectButton": "Select Folder..."
+    },
+    "basePath": {
+      "button": "Select Base Folder",
+      "placeholder": "Select a base folder for relative paths"
+    }
+  },
+  "output": {
+    "label": "Output Path",
+    "copyButton": "Copy to Clipboard",
+    "copySuccess": "Copied!"
+  },
+  "options": {
+    "label": "Options",
+    "convertToUnix": "Convert to Unix Path",
+    "convertToWindows": "Convert to Windows Path",
+    "removeQuotes": "Remove Quotes",
+    "addQuotes": "Add Quotes",
+    "escapeSpaces": "Escape Spaces",
+    "unescapeSpaces": "Unescape Spaces"
+  },
+  "clipboard": {
+    "copied": "Copied!",
+    "error": "Failed to access clipboard"
+  },
+  "pathTypes": {
+    "unix": {
+      "relative": "Unix Rel",
+      "full": "Unix Full"
+    },
+    "windows": {
+      "relative": "Windows Rel",
+      "full": "Windows Full"
+    },
+    "html": {
+      "relative": "HTML Rel",
+      "full": "HTML Full"
+    },
+    "filemaker": {
+      "relative": "FM Rel",
+      "macRelative": "FM Mac Rel",
+      "winRelative": "FM Win Rel",
+      "macFull": "FM Mac Full",
+      "winFull": "FM Win Full"
+    }
+  },
+  "fileInfo": {
+    "folder": "Folder",
+    "imageFile": "Image File",
+    "size": {
+      "byte": "bytes",
+      "kb": "KB",
+      "mb": "MB",
+      "gb": "GB"
+    }
+  },
+  "errors": {
+    "basePath": "Base folder selection error",
+    "fileSelect": "File selection error"
+  }
+} 

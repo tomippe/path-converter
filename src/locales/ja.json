@@ -1,0 +1,70 @@
+{
+  "title": "Path Converter",
+  "input": {
+    "label": "入力パス",
+    "placeholder": "変換したいパスを入力してください",
+    "pasteButton": "クリップボードから貼り付け",
+    "clearButton": "クリア",
+    "dropzone": {
+      "message": "ファイルやフォルダをドロップするか、クリックして選択してください",
+      "selectButton": "フォルダを選択..."
+    },
+    "basePath": {
+      "button": "起点フォルダを選択",
+      "placeholder": "相対パスの起点となるフォルダを選択してください"
+    }
+  },
+  "output": {
+    "label": "出力パス",
+    "copyButton": "クリップボードにコピー",
+    "copySuccess": "コピーしました！"
+  },
+  "options": {
+    "label": "オプション",
+    "convertToUnix": "Unixパスに変換",
+    "convertToWindows": "Windowsパスに変換",
+    "removeQuotes": "引用符を削除",
+    "addQuotes": "引用符を追加",
+    "escapeSpaces": "スペースをエスケープ",
+    "unescapeSpaces": "スペースのエスケープを解除"
+  },
+  "clipboard": {
+    "copied": "コピーしました！",
+    "error": "クリップボードの操作に失敗しました"
+  },
+  "pathTypes": {
+    "unix": {
+      "relative": "UNIX相対",
+      "full": "UNIX完全"
+    },
+    "windows": {
+      "relative": "Windows相対",
+      "full": "Windows完全"
+    },
+    "html": {
+      "relative": "HTML相対",
+      "full": "HTML完全"
+    },
+    "filemaker": {
+      "relative": "FM相対",
+      "macRelative": "FM Mac相対",
+      "winRelative": "FM Win相対",
+      "macFull": "FM Mac完全",
+      "winFull": "FM Win完全"
+    }
+  },
+  "fileInfo": {
+    "folder": "フォルダ",
+    "imageFile": "画像ファイル",
+    "size": {
+      "byte": "バイト",
+      "kb": "KB",
+      "mb": "MB",
+      "gb": "GB"
+    }
+  },
+  "errors": {
+    "basePath": "起点フォルダ選択エラー",
+    "fileSelect": "ファイル選択エラー"
+  }
+} 

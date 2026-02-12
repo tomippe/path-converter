@@ -1,0 +1,70 @@
+{
+  "title": "Path Converter",
+  "input": {
+    "label": "输入路径",
+    "placeholder": "请输入要转换的路径",
+    "pasteButton": "从剪贴板粘贴",
+    "clearButton": "清除",
+    "dropzone": {
+      "message": "拖放文件到此处或点击选择",
+      "selectButton": "选择文件夹..."
+    },
+    "basePath": {
+      "button": "选择基准文件夹",
+      "placeholder": "选择相对路径的基准文件夹"
+    }
+  },
+  "output": {
+    "label": "输出路径",
+    "copyButton": "复制到剪贴板",
+    "copySuccess": "已复制！"
+  },
+  "options": {
+    "label": "选项",
+    "convertToUnix": "转换为Unix路径",
+    "convertToWindows": "转换为Windows路径",
+    "removeQuotes": "删除引号",
+    "addQuotes": "添加引号",
+    "escapeSpaces": "转义空格",
+    "unescapeSpaces": "取消转义空格"
+  },
+  "clipboard": {
+    "copied": "已复制！",
+    "error": "剪贴板访问失败"
+  },
+  "pathTypes": {
+    "unix": {
+      "relative": "Unix相对",
+      "full": "Unix完整"
+    },
+    "windows": {
+      "relative": "Windows相对",
+      "full": "Windows完整"
+    },
+    "html": {
+      "relative": "HTML相对",
+      "full": "HTML完整"
+    },
+    "filemaker": {
+      "relative": "FM相对",
+      "macRelative": "FM Mac相对",
+      "winRelative": "FM Win相对",
+      "macFull": "FM Mac完整",
+      "winFull": "FM Win完整"
+    }
+  },
+  "fileInfo": {
+    "folder": "文件夹",
+    "imageFile": "图像文件",
+    "size": {
+      "byte": "字节",
+      "kb": "KB",
+      "mb": "MB",
+      "gb": "GB"
+    }
+  },
+  "errors": {
+    "basePath": "基准文件夹选择错误",
+    "fileSelect": "文件选择错误"
+  }
+} 

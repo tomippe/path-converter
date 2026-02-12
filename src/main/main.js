@@ -16,6 +16,21 @@ app.on('open-file', (event, filePath) => {
     }
 });
 
+// Windowsでのファイルドラッグ処理
+function handleWindowsFileArg(argv) {
+    // Windows実行ファイルへのドラッグの場合、パスは2番目の引数
+    const filePath = argv[1];
+    if (filePath && !filePath.startsWith('--')) {
+        if (app.isReady() && mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.webContents.send('handle-dropped-file', filePath);
+        } else {
+            fileToOpen = filePath;
+        }
+        return true;
+    }
+    return false;
+}
+
 const WINDOW_CONFIG = {
     width: 900,
     height: 680,
@@ -99,7 +114,22 @@ function createWindow(filePathToOpen = null) {
 }
 
 app.whenReady().then(() => {
-    if (process.argv.length > 2) {
+    // Windowsでのファイルドラッグ処理
+    if (process.platform === 'win32') {
+        handleWindowsFileArg(process.argv);
+        
+        // 2回目以降のファイルドラッグ用
+        app.on('second-instance', (event, argv) => {
+            if (handleWindowsFileArg(argv)) {
+                if (mainWindow) {
+                    if (mainWindow.isMinimized()) mainWindow.restore();
+                    mainWindow.focus();
+                }
+            }
+        });
+    }
+    // macOSでのファイルドラッグ処理（既存のコード）
+    else if (process.argv.length > 2) {
         fileToOpen = process.argv[2];
     }
     
@@ -113,12 +143,32 @@ app.whenReady().then(() => {
     });
 });
 
+// シングルインスタンスロック
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+    app.quit();
+} else {
+    app.on('second-instance', (event, argv, workingDirectory) => {
+        if (mainWindow) {
+            if (mainWindow.isMinimized()) mainWindow.restore();
+            mainWindow.focus();
+        }
+    });
+}
+
 app.on('window-all-closed', () => app.quit());
 
 // IPCハンドラー
 ipcMain.handle('select-file', async () => {
+    const dialogOptions = process.platform === 'win32'
+        ? ['openFile']
+        : ['openFile', 'openDirectory'];
+
     const result = await dialog.showOpenDialog(mainWindow, {
-        properties: ['openFile', 'openDirectory']
+        properties: dialogOptions,
+        filters: [
+            { name: 'All Files', extensions: ['*'] }
+        ]
     });
     return result.filePaths[0];
 });
@@ -132,13 +182,21 @@ ipcMain.handle('select-base-path', async () => {
 });
 
 ipcMain.handle('handle-path', async (event, filePath, basePath) => {
-    const stats = await fs.promises.stat(filePath);
-    return {
-        success: true,
-        path: filePath,
-        basePath: basePath || defaultBasePath,
-        isDirectory: stats.isDirectory()
-    };
+    try {
+        const stats = await fs.promises.stat(filePath);
+        return {
+            success: true,
+            path: filePath,
+            basePath: basePath || defaultBasePath,
+            isDirectory: stats.isDirectory()
+        };
+    } catch (error) {
+        console.error('Path handling error:', error);
+        return {
+            success: false,
+            error: error.message
+        };
+    }
 });
 
 ipcMain.handle('write-to-clipboard', async (event, text) => {
@@ -171,4 +229,14 @@ ipcMain.handle('get-file-info', async (event, filePath) => {
     }
 
     return { success: true, info };
+});
+
+// システムロケールを取得するハンドラー
+ipcMain.handle('get-system-locale', () => {
+    return app.getLocale();
+});
+
+// クリップボードから読み取るハンドラー
+ipcMain.handle('read-from-clipboard', () => {
+    return clipboard.readText();
 }); 

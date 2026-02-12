@@ -1,16 +1,20 @@
 {
   "name": "path-converter",
-  "version": "1.0.0",
+  "version": "1.2.6",
   "description": "パス変換ツール",
+  "productName": "Path Converter",
   "main": "src/main/main.js",
   "scripts": {
     "start": "electron .",
     "dev": "electron . --debug",
     "build": "electron-builder",
     "build:mac": "electron-builder --mac --universal",
-    "build:win": "electron-builder --win --universal"
+    "build:win": "electron-builder --win --x64 --arm64",
+    "build:win-x64": "electron-builder --win --x64",
+    "build:win-arm64": "electron-builder --win --arm64",
+    "build:msix": "electron-builder --win --x64 && electron-windows-store --input-directory dist --output-directory msix --package-version 1.2.1 --package-name PathConverter --package-display-name \"Path Converter\" --package-description \"パス変換ツール\" --identity-name StudioTomippe.PathConverter --publisher-display-name \"Studio Tomippe\" --windows-kit \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.19041.0\\x64\" --dev-cert"
   },
-  "author": "",
+  "author": "Studio Tomippe",
   "license": "ISC",
   "devDependencies": {
     "@electron/notarize": "^2.1.0",
@@ -21,11 +25,20 @@
   "build": {
     "appId": "jp.tomippe.pathconverter",
     "productName": "Path Converter",
-    "artifactName": "${name}_${version}_${os}.${ext}",
+    "artifactName": "${name}_${os}.${ext}",
     "asar": false,
     "files": [
-      "src",
+      "src/**/*",
       "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": ".",
+        "to": "app",
+        "filter": [
+          "src/**/*"
+        ]
+      }
     ],
     "directories": {
       "buildResources": "build",
@@ -66,6 +79,18 @@
           }
         ]
       }
+    },
+    "win": {
+      "target": [
+        {
+          "target": "dir",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico"
     }
   }
 }

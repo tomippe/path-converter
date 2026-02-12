@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>パス変換ツール</title>
+    <title>Path Converter</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -151,66 +151,66 @@
                 <div class="file-icon">📄</div>
                 <div class="file-name"></div>
             </div>
-            <div class="drop-message">ファイルやフォルダをドロップするか、クリックして選択してください</div>
+            <div class="drop-message"></div>
         </div>
 
         <div class="base-path">
-            <button onclick="selectBasePath()">起点フォルダを選択</button>
-            <input type="text" id="basePath" class="base-path-input" readonly placeholder="相対パスの起点となるフォルダを選択してください">
+            <button onclick="selectBasePath()" id="selectBasePathButton"></button>
+            <input type="text" id="basePath" class="base-path-input" readonly>
         </div>
 
         <div class="path-group">
-            <button onclick="copyPath('unixRelativePath')">UNIX相対</button>
+            <button onclick="copyPath('unixRelativePath')" id="unixRelativePathButton"></button>
             <input type="text" id="unixRelativePath" class="path-input" readonly>
         </div>
 
         <div class="path-group">
-            <button onclick="copyPath('unixPath')">UNIX完全</button>
+            <button onclick="copyPath('unixPath')" id="unixPathButton"></button>
             <input type="text" id="unixPath" class="path-input" readonly>
         </div>
 
         <div class="path-group">
-            <button onclick="copyPath('htmlRelativePath')">HTML相対</button>
+            <button onclick="copyPath('htmlRelativePath')" id="htmlRelativePathButton"></button>
             <input type="text" id="htmlRelativePath" class="path-input" readonly>
         </div>
 
         <div class="path-group">
-            <button onclick="copyPath('htmlPath')">HTML完全</button>
+            <button onclick="copyPath('htmlPath')" id="htmlPathButton"></button>
             <input type="text" id="htmlPath" class="path-input" readonly>
         </div>
 
         <div class="path-group">
-            <button onclick="copyPath('windowsRelativePath')">Windows相対</button>
+            <button onclick="copyPath('windowsRelativePath')" id="windowsRelativePathButton"></button>
             <input type="text" id="windowsRelativePath" class="path-input" readonly>
         </div>
 
         <div class="path-group">
-            <button onclick="copyPath('windowsPath')">Windows完全</button>
+            <button onclick="copyPath('windowsPath')" id="windowsPathButton"></button>
             <input type="text" id="windowsPath" class="path-input" readonly>
         </div>
 
         <div class="path-group">
-            <button onclick="copyPath('fmRelativePath')">FM相対</button>
+            <button onclick="copyPath('fmRelativePath')" id="fmRelativePathButton"></button>
             <input type="text" id="fmRelativePath" class="path-input" readonly>
         </div>
 
         <div class="path-group">
-            <button onclick="copyPath('fmMacRelativePath')">FM Mac相対</button>
+            <button onclick="copyPath('fmMacRelativePath')" id="fmMacRelativePathButton"></button>
             <input type="text" id="fmMacRelativePath" class="path-input" readonly>
         </div>
 
         <div class="path-group">
-            <button onclick="copyPath('fmMacFullPath')">FM Mac完全</button>
+            <button onclick="copyPath('fmMacFullPath')" id="fmMacFullPathButton"></button>
             <input type="text" id="fmMacFullPath" class="path-input" readonly>
         </div>
 
         <div class="path-group">
-            <button onclick="copyPath('fmWinRelativePath')">FM Win相対</button>
+            <button onclick="copyPath('fmWinRelativePath')" id="fmWinRelativePathButton"></button>
             <input type="text" id="fmWinRelativePath" class="path-input" readonly>
         </div>
 
         <div class="path-group">
-            <button onclick="copyPath('fmWinFullPath')">FM Win完全</button>
+            <button onclick="copyPath('fmWinFullPath')" id="fmWinFullPathButton"></button>
             <input type="text" id="fmWinFullPath" class="path-input" readonly>
         </div>
     </div>
