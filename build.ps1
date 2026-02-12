@@ -9,7 +9,8 @@
     .\build.ps1 -Exe         # Build EXE only (skip MSIX)
 #>
 param(
-    [switch]$Exe
+    [switch]$Exe,
+    [switch]$Noverup
 )
 
 $ErrorActionPreference = "Stop"
@@ -172,8 +173,10 @@ if (-not $makeappx) {
 
 # ─── Save Next Version ───
 
-Write-Step "Version Update"
-Save-NextAppVersion -Version $version
+if (-not $Noverup) {
+    Write-Step "Version Update"
+    Save-NextAppVersion -Version $version
+}
 
 # ─── Summary ───
 

@@ -17,10 +17,15 @@ source "$SCRIPT_DIR/../build-common/git-commit.sh"
 
 # ===== オプション解析 =====
 APP_ONLY=false
-for arg in "$@"; do
-    case "$arg" in
+COMMIT_MSG=""
+NO_VERUP=false
+while [ $# -gt 0 ]; do
+    case "$1" in
         -app) APP_ONLY=true ;;
+        -cm) shift; COMMIT_MSG="$1" ;;
+        -noverup) NO_VERUP=true ;;
     esac
+    shift || true
 done
 
 # バージョン読み込み & package.json に反映
@@ -103,13 +108,29 @@ echo "  ✓ $DIST_DIR/$ZIP_NAME にコピーしました"
 # リモートサーバーへアップロード
 ftp_upload_file "$DIST_DIR/$ZIP_NAME" "path-converter/$ZIP_NAME"
 
+# manifest.json を更新してアップロード（mac_version のみ更新、win_version を保持）
+python3 -c "
+import json, os
+path = '$DIST_DIR/manifest.json'
+data = {}
+if os.path.exists(path):
+    with open(path) as f: data = json.load(f)
+data['name'] = 'PathConverter'
+data['version'] = '$VERSION'
+data['mac_version'] = '$VERSION'
+with open(path, 'w') as f: json.dump(data, f)
+"
+ftp_upload_file "$DIST_DIR/manifest.json" "path-converter/manifest.json"
+
 # 次回用バージョン保存
-echo ""
-echo "📝 次回用バージョンを更新しています..."
-version_save_next "$VERSION"
+if ! $NO_VERUP; then
+    echo ""
+    echo "📝 次回用バージョンを更新しています..."
+    version_save_next "$VERSION"
+fi
 
 # Git コミット
-git_commit_build "$VERSION"
+git_commit_build "$VERSION" "$COMMIT_MSG"
 
 echo ""
 echo "🎉 ${APP_NAME} v${VERSION} — ビルド・公証完了!"
