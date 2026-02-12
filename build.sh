@@ -13,6 +13,7 @@ DIST_DIR="../apps.tomippe.jp/path-converter"
 # 共通スクリプト読み込み
 source "$SCRIPT_DIR/../build-common/version.sh"
 source "$SCRIPT_DIR/../build-common/ftp-upload.sh"
+source "$SCRIPT_DIR/../build-common/git-commit.sh"
 
 # ===== オプション解析 =====
 APP_ONLY=false
@@ -106,6 +107,9 @@ ftp_upload_file "$DIST_DIR/$ZIP_NAME" "path-converter/$ZIP_NAME"
 echo ""
 echo "📝 次回用バージョンを更新しています..."
 version_save_next "$VERSION"
+
+# Git コミット
+git_commit_build "$VERSION"
 
 echo ""
 echo "🎉 ${APP_NAME} v${VERSION} — ビルド・公証完了!"
