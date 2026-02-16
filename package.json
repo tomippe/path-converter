@@ -8,7 +8,8 @@
     "start": "electron .",
     "dev": "electron . --debug",
     "build": "electron-builder",
-    "build:mac": "electron-builder --mac --universal",
+    "build:mac": "electron-builder --mac --universal --publish never",
+    "build:mas": "electron-builder --mac mas --universal --publish never --dir",
     "build:win": "electron-builder --win --x64 --arm64",
     "build:win-x64": "electron-builder --win --x64",
     "build:win-arm64": "electron-builder --win --arm64",
@@ -58,6 +59,10 @@
       "provisioningProfile": null,
       "strictVerify": false,
       "extendInfo": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleDevelopmentRegion": "ja",
+        "CFBundleLocalizations": ["ja", "en", "zh-Hans"],
+        "NSHumanReadableCopyright": "Copyright © 2025 tomippe. All rights reserved.",
         "CFBundleDocumentTypes": [
           {
             "CFBundleTypeName": "All Files",
@@ -79,6 +84,13 @@
           }
         ]
       }
+    },
+    "mas": {
+      "provisioningProfile": "build/PathConverter.provisionprofile",
+      "entitlements": "build/entitlements.mas.plist",
+      "entitlementsInherit": "build/entitlements.mas.inherit.plist",
+      "entitlementsLoginHelper": "build/entitlements.mas.helper.plist",
+      "identity": "C25E23DDFE5F4FC4C8E90BD8923867EEA2D32068"
     },
     "win": {
       "target": [

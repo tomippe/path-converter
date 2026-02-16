@@ -1,0 +1,37 @@
+---
+description: Path Converter のビルド仕様
+globs: build.sh
+alwaysApply: false
+---
+
+# Path Converter ビルド仕様
+
+共通のビルドシステムは `../build-common/` を参照。
+
+## 概要
+
+- **種別**: Electron アプリ（Mac専用）
+- **ビルド**: 直接配布版 + App Store版 の2種類を同時ビルド
+- **直接配布版**: `npm run build:mac` → Developer ID署名 → ノータライズ
+- **App Store版**: `npm run build:mas` → Apple Distribution署名 → PKG → App Store Connect
+
+## 固有設定
+
+- ZIP: `path-converter_mac.zip`（直接配布版）
+- PKG: `PathConverter.pkg`（App Store版）
+- ビルド前にキャッシュ全削除 + `npm install --force`
+- アイコン: `build/icon.png` から `iconutil` で `.icns` 生成
+- ビルド成果物: `dist/`
+
+## エンタイトルメント
+
+- `build/entitlements.mac.plist` — 直接配布版（Developer ID）
+- `build/entitlements.mas.plist` — App Store版 親プロセス（サンドボックス + Electron必須権限 + ファイルアクセス）
+- `build/entitlements.mas.inherit.plist` — App Store版 子プロセス（サンドボックス + inherit + JIT）
+- `build/entitlements.mas.helper.plist` — App Store版 ログインヘルパー
+
+## App Store版の署名
+
+- アプリ署名: `Apple Distribution: TOMIHIDE OTA (4U63Y3X98K)`（ハッシュ指定）
+- PKGインストーラ: `3rd Party Mac Developer Installer: TOMIHIDE OTA (4U63Y3X98K)`
+- プロビジョニングプロファイル: `build/PathConverter.provisionprofile`（要手動配置）
