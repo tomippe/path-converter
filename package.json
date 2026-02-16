@@ -58,6 +58,11 @@
       "identity": "TOMIHIDE OTA",
       "provisioningProfile": null,
       "strictVerify": false,
+      "helperBundleId": "jp.tomippe.pathconverter.helper",
+      "helperEHBundleId": "jp.tomippe.pathconverter.helper.eh",
+      "helperGPUBundleId": "jp.tomippe.pathconverter.helper.gpu",
+      "helperRendererBundleId": "jp.tomippe.pathconverter.helper.renderer",
+      "helperPluginBundleId": "jp.tomippe.pathconverter.helper.plugin",
       "extendInfo": {
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleDevelopmentRegion": "ja",
@@ -90,7 +95,12 @@
       "entitlements": "build/entitlements.mas.plist",
       "entitlementsInherit": "build/entitlements.mas.inherit.plist",
       "entitlementsLoginHelper": "build/entitlements.mas.helper.plist",
-      "identity": "C25E23DDFE5F4FC4C8E90BD8923867EEA2D32068"
+      "identity": "C25E23DDFE5F4FC4C8E90BD8923867EEA2D32068",
+      "helperBundleId": "jp.tomippe.pathconverter.helper",
+      "helperEHBundleId": "jp.tomippe.pathconverter.helper.eh",
+      "helperGPUBundleId": "jp.tomippe.pathconverter.helper.gpu",
+      "helperRendererBundleId": "jp.tomippe.pathconverter.helper.renderer",
+      "helperPluginBundleId": "jp.tomippe.pathconverter.helper.plugin"
     },
     "win": {
       "target": [
