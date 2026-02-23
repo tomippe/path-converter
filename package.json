@@ -1,6 +1,6 @@
 {
   "name": "path-converter",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "パス変換ツール",
   "productName": "Path Converter",
   "main": "src/main/main.js",

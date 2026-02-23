@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, clipboard } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, clipboard, Menu, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -113,7 +113,69 @@ function createWindow(filePathToOpen = null) {
     });
 }
 
+const HELP_URL = 'https://apps.tomippe.jp/path-converter/';
+
+const HELP_MENU_LABELS = {
+    ja: 'Path Converter Webサイト',
+    en: 'Path Converter Website',
+    zh: 'Path Converter 网站',
+    'zh-TW': 'Path Converter 網站'
+};
+
+function getHelpMenuLabel() {
+    const locale = app.getLocale();
+    return HELP_MENU_LABELS[locale] || HELP_MENU_LABELS[locale.split('-')[0]] || HELP_MENU_LABELS.en;
+}
+
+const FILE_FILTER_LABELS = {
+    ja: 'すべてのファイル',
+    en: 'All Files',
+    zh: '所有文件',
+    'zh-TW': '所有檔案'
+};
+
+function getFileFilterLabel() {
+    const locale = app.getLocale();
+    return FILE_FILTER_LABELS[locale] || FILE_FILTER_LABELS[locale.split('-')[0]] || FILE_FILTER_LABELS.en;
+}
+
+function setupApplicationMenu() {
+    const helpLabel = getHelpMenuLabel();
+    const template = [
+        ...(process.platform === 'darwin' ? [{
+            label: app.name,
+            submenu: [
+                { role: 'about' },
+                { type: 'separator' },
+                { role: 'services' },
+                { type: 'separator' },
+                { role: 'hide' },
+                { role: 'hideOthers' },
+                { role: 'unhide' },
+                { type: 'separator' },
+                { role: 'quit' }
+            ]
+        }] : []),
+        { role: 'editMenu' },
+        { role: 'viewMenu' },
+        ...(process.platform === 'darwin' ? [{ role: 'windowMenu' }] : []),
+        {
+            role: 'help',
+            submenu: [
+                {
+                    label: helpLabel,
+                    click: async () => { await shell.openExternal(HELP_URL); }
+                }
+            ]
+        }
+    ];
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+}
+
 app.whenReady().then(() => {
+    setupApplicationMenu();
+
     // Windowsでのファイルドラッグ処理
     if (process.platform === 'win32') {
         handleWindowsFileArg(process.argv);
@@ -167,7 +229,7 @@ ipcMain.handle('select-file', async () => {
     const result = await dialog.showOpenDialog(mainWindow, {
         properties: dialogOptions,
         filters: [
-            { name: 'All Files', extensions: ['*'] }
+            { name: getFileFilterLabel(), extensions: ['*'] }
         ]
     });
     return result.filePaths[0];

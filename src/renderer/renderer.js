@@ -22,7 +22,8 @@ async function loadLanguageFile(forceLang = null) {
     try {
         const systemLocale = await getSystemLocale();
         const lang = forceLang || systemLocale;
-        
+        currentLang = lang;
+
         const langPath = `../locales/${lang}.json`;
         const response = await fetch(langPath);
         if (response.ok) {
@@ -44,10 +45,14 @@ async function loadLanguageFile(forceLang = null) {
     }
 }
 
+// 現在の言語コード（html lang 用）
+let currentLang = 'en';
+
 // UIラベルを更新する関数
 function updateUILabels() {
-    // タイトルの更新
+    // タイトルと html lang 属性の更新
     document.title = i18n.title;
+    document.documentElement.lang = currentLang === 'zh' ? 'zh-Hans' : currentLang;
 
     // ドロップゾーンのメッセージを更新
     const dropMessage = document.querySelector('.drop-message');
