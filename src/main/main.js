@@ -1,6 +1,9 @@
 const { app, BrowserWindow, ipcMain, dialog, clipboard, Menu, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const { insertMacReviewAfterAbout } = require('../../../build-common/electron-mac-review');
+
+const MAC_APP_STORE_ID = '6759250920';
 
 let mainWindow = null;
 let defaultBasePath;
@@ -144,7 +147,8 @@ function setupApplicationMenu() {
     const template = [
         ...(process.platform === 'darwin' ? [{
             label: app.name,
-            submenu: [
+            submenu: (() => {
+                const submenu = [
                 { role: 'about' },
                 { type: 'separator' },
                 { role: 'services' },
@@ -154,7 +158,10 @@ function setupApplicationMenu() {
                 { role: 'unhide' },
                 { type: 'separator' },
                 { role: 'quit' }
-            ]
+                ];
+                insertMacReviewAfterAbout(submenu, { shell, appStoreId: MAC_APP_STORE_ID });
+                return submenu;
+            })()
         }] : []),
         { role: 'editMenu' },
         { role: 'viewMenu' },

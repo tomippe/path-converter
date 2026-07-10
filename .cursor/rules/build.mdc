@@ -1,12 +1,12 @@
 ---
 description: Path Converter のビルド仕様
-globs: build.sh
-alwaysApply: false
+alwaysApply: true
 ---
 
 # Path Converter ビルド仕様
 
-共通のビルドシステムは `../build-common/` を参照。
+**共通ルール（自動では読み込まれないため、ファイル編集・ビルド・コミットの前に必ず Read ツールで読むこと）:**
+- `../build-common/.cursor/rules/build-system.mdc`
 
 ## 概要
 
