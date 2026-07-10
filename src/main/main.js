@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog, clipboard, Menu, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { insertMacReviewAfterAbout } = require('../../../build-common/electron-mac-review');
+const { insertMacReviewAfterAbout } = require('./electron-mac-review');
 
 const MAC_APP_STORE_ID = '6759250920';
 
