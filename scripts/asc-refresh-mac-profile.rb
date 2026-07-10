@@ -93,10 +93,10 @@ puts "bundleId: #{BUNDLE_ID} (#{bundle_id_api})"
 
 certs = client.get(
   "/v1/certificates",
-  "filter[certificateType]" => "MAC_APP_DISTRIBUTION",
+  "filter[certificateType]" => "DISTRIBUTION",
   "limit" => 20
 ).fetch("data", [])
-abort "❌ MAC_APP_DISTRIBUTION certificate not found" if certs.empty?
+abort "❌ DISTRIBUTION (Apple Distribution) certificate not found" if certs.empty?
 
 cert = certs.max_by { |c| c.dig("attributes", "expirationDate").to_s }
 cert_id = cert.fetch("id")

@@ -25,15 +25,15 @@ if [ -z "$IDENTITY" ]; then
   PROFILE_SHA1=$(openssl x509 -inform der -in "$PROFILE_CERT" -noout -fingerprint -sha1 2>/dev/null | sed 's/.*=//' | tr -d ':')
   rm -f "$PROFILE_PLIST" "$PROFILE_CERT"
   if [ -n "$PROFILE_SHA1" ]; then
-    MATCH_LINE=$(security find-identity -v -p codesigning -s "$KEYCHAIN" 2>/dev/null | grep -i "Apple Distribution" | grep -i "$PROFILE_SHA1" | head -n1 || true)
+    MATCH_LINE=$(security find-identity -v -p codesigning -s "$KEYCHAIN" 2>/dev/null | grep -i "$PROFILE_SHA1" | head -n1 || true)
     if [ -n "$MATCH_LINE" ]; then
       IDENTITY=$(echo "$MATCH_LINE" | awk '{print $2}' | tr -d '"')
-      echo "🔐 Apple Distribution identity from profile: $IDENTITY"
+      echo "🔐 プロファイル内証明書: $IDENTITY"
     fi
   fi
 fi
 if [ -z "$IDENTITY" ]; then
-  MATCH_LINE=$(security find-identity -v -p codesigning -s "$KEYCHAIN" 2>/dev/null | grep -i "Apple Distribution" | head -n1 || true)
+  MATCH_LINE=$(security find-identity -v -p codesigning -s "$KEYCHAIN" 2>/dev/null | grep -iE "Apple Distribution|3rd Party Mac Developer Application" | head -n1 || true)
   if [ -n "$MATCH_LINE" ]; then
     IDENTITY=$(echo "$MATCH_LINE" | awk '{print $2}' | tr -d '"')
     echo "🔐 Apple Distribution identity (fallback): $IDENTITY"
@@ -166,7 +166,7 @@ while IFS= read -r f; do
     *) continue ;;
   esac
   auth=$(codesign -dvv "$f" 2>&1 | grep "Authority=" | head -1 || true)
-  if ! echo "$auth" | grep -q "Apple Distribution"; then
+  if ! echo "$auth" | grep -qE "Apple Distribution|3rd Party Mac Developer Application"; then
     echo "  ❌ $f"
     echo "     ${auth:-（未署名）}"
     bad=1
