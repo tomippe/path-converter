@@ -1,6 +1,6 @@
 {
   "name": "path-converter",
-  "version": "1.2.11",
+  "version": "1.2.12",
   "description": "パス変換ツール",
   "productName": "Path Converter",
   "main": "src/main/main.js",
@@ -8,7 +8,8 @@
     "start": "electron .",
     "dev": "electron . --debug",
     "build": "electron-builder",
-    "build:mas": "electron-builder --mac mas --universal --publish never --dir",
+    "build:mas": "electron-builder --mac mas --universal --publish never --dir || test -d 'dist/mas-universal/Path Converter.app'",
+    "build:mas-signed": "npm run build:mas && ./scripts/sign-mas.sh",
     "build:win": "electron-builder --win --x64 --arm64",
     "build:win-x64": "electron-builder --win --x64",
     "build:win-arm64": "electron-builder --win --arm64",
@@ -20,7 +21,7 @@
     "@electron/notarize": "^2.1.0",
     "dotenv": "^16.4.7",
     "electron": "25.9.8",
-    "electron-builder": "^24.9.1"
+    "electron-builder": "^26.0.0"
   },
   "build": {
     "appId": "jp.tomippe.pathconverter",
@@ -84,7 +85,6 @@
       "entitlements": "build/entitlements.mas.plist",
       "entitlementsInherit": "build/entitlements.mas.inherit.plist",
       "entitlementsLoginHelper": "build/entitlements.mas.helper.plist",
-      "identity": "962C053F15306725278F43B38976DF70B76CC52E",
       "helperBundleId": "jp.tomippe.pathconverter.helper",
       "helperEHBundleId": "jp.tomippe.pathconverter.helper.eh",
       "helperGPUBundleId": "jp.tomippe.pathconverter.helper.gpu",

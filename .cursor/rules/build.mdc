@@ -11,8 +11,9 @@ alwaysApply: true
 ## 概要
 
 - **種別**: Electron アプリ（Mac App Store版 + Windows Store版）
-- **Mac ビルド**: App Store版のみ（`npm run build:mas` → Apple Distribution署名 → PKG → App Store Connect）
+- **Mac ビルド**: App Store版のみ（`npm run build:mas-signed` → PKG → App Store Connect）
 - **Windows ビルド**: `build.ps1`（Windows PC・手動）→ Microsoft Store
+- **Mac App Store プロファイル更新**: ビルド時に `ruby scripts/asc-refresh-mac-profile.rb` を自動実行（FaviconApplier / POUCHES と同様。手動で証明書を作る必要なし）
 
 ## 固有設定
 
