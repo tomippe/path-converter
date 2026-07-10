@@ -1,6 +1,6 @@
 {
   "name": "path-converter",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "パス変換ツール",
   "productName": "Path Converter",
   "main": "src/main/main.js",
@@ -8,7 +8,6 @@
     "start": "electron .",
     "dev": "electron . --debug",
     "build": "electron-builder",
-    "build:mac": "electron-builder --mac --universal --publish never",
     "build:mas": "electron-builder --mac mas --universal --publish never --dir",
     "build:win": "electron-builder --win --x64 --arm64",
     "build:win-x64": "electron-builder --win --x64",
@@ -47,17 +46,7 @@
     },
     "mac": {
       "category": "public.app-category.utilities",
-      "hardenedRuntime": true,
-      "gatekeeperAssess": false,
-      "entitlements": "build/entitlements.mac.plist",
-      "entitlementsInherit": "build/entitlements.mac.plist",
       "icon": "build/icon.icns",
-      "target": [
-        "zip"
-      ],
-      "identity": "TOMIHIDE OTA",
-      "provisioningProfile": null,
-      "strictVerify": false,
       "helperBundleId": "jp.tomippe.pathconverter.helper",
       "helperEHBundleId": "jp.tomippe.pathconverter.helper.eh",
       "helperGPUBundleId": "jp.tomippe.pathconverter.helper.gpu",
@@ -95,7 +84,7 @@
       "entitlements": "build/entitlements.mas.plist",
       "entitlementsInherit": "build/entitlements.mas.inherit.plist",
       "entitlementsLoginHelper": "build/entitlements.mas.helper.plist",
-      "identity": "C25E23DDFE5F4FC4C8E90BD8923867EEA2D32068",
+      "identity": "962C053F15306725278F43B38976DF70B76CC52E",
       "helperBundleId": "jp.tomippe.pathconverter.helper",
       "helperEHBundleId": "jp.tomippe.pathconverter.helper.eh",
       "helperGPUBundleId": "jp.tomippe.pathconverter.helper.gpu",

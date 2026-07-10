@@ -10,22 +10,20 @@ alwaysApply: true
 
 ## 概要
 
-- **種別**: Electron アプリ（Mac専用）
-- **ビルド**: 直接配布版 + App Store版 の2種類を同時ビルド
-- **直接配布版**: `npm run build:mac` → Developer ID署名 → ノータライズ
-- **App Store版**: `npm run build:mas` → Apple Distribution署名 → PKG → App Store Connect
+- **種別**: Electron アプリ（Mac App Store版 + Windows Store版）
+- **Mac ビルド**: App Store版のみ（`npm run build:mas` → Apple Distribution署名 → PKG → App Store Connect）
+- **Windows ビルド**: `build.ps1`（Windows PC・手動）→ Microsoft Store
 
 ## 固有設定
 
-- ZIP: `path-converter_mac.zip`（直接配布版）
 - PKG: `PathConverter.pkg`（App Store版）
 - ビルド前にキャッシュ全削除 + `npm install --force`
 - アイコン: `build/icon.png` から `iconutil` で `.icns` 生成
 - ビルド成果物: `dist/`
+- 直接配布版（Developer ID / ZIP）は廃止。サーバー上の `path-converter_mac.zip` も削除する
 
 ## エンタイトルメント
 
-- `build/entitlements.mac.plist` — 直接配布版（Developer ID）
 - `build/entitlements.mas.plist` — App Store版 親プロセス（サンドボックス + Electron必須権限 + ファイルアクセス）
 - `build/entitlements.mas.inherit.plist` — App Store版 子プロセス（サンドボックス + inherit + JIT）
 - `build/entitlements.mas.helper.plist` — App Store版 ログインヘルパー
