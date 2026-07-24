@@ -11,14 +11,14 @@ require("electron-builder").build({
           "buildResources": "build",
           "output": "dist"
         },
-        "afterSign": "build/notarize.js",
+        "afterSign": "mac/notarize.js",
         "mac": {
           "category": "public.app-category.utilities",
           "hardenedRuntime": true,
           "gatekeeperAssess": false,
-          "entitlements": "build/entitlements.mac.plist",
-          "entitlementsInherit": "build/entitlements.mac.plist",
-          "icon": "build/icon.icns",
+          "entitlements": "mac/entitlements.mac.plist",
+          "entitlementsInherit": "mac/entitlements.mac.plist",
+          "icon": "mac/icon.icns",
           "target": [
             "zip"
           ],

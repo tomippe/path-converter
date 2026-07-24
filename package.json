@@ -8,11 +8,11 @@
     "start": "electron .",
     "dev": "electron . --debug",
     "build": "electron-builder",
-    "build:mas": "electron-builder --mac mas --universal --publish never --dir || test -d 'dist/mas-universal/Path Converter.app'",
+    "build:mas": "electron-builder --mac mas --universal --publish never --dir || test -d 'mac/build/mas-universal/Path Converter.app'",
     "build:mas-signed": "npm run build:mas && ./scripts/sign-mas.sh",
-    "build:win": "electron-builder --win --x64 --arm64",
-    "build:win-x64": "electron-builder --win --x64",
-    "build:win-arm64": "electron-builder --win --arm64",
+    "build:win": "electron-builder --win --x64 --arm64 -c.directories.output=windows/build",
+    "build:win-x64": "electron-builder --win --x64 -c.directories.output=windows/build",
+    "build:win-arm64": "electron-builder --win --arm64 -c.directories.output=windows/build",
     "build:msix": "electron-builder --win --x64 && electron-windows-store --input-directory dist --output-directory msix --package-version 1.2.1 --package-name PathConverter --package-display-name \"Path Converter\" --package-description \"パス変換ツール\" --identity-name StudioTomippe.PathConverter --publisher-display-name \"Studio Tomippe\" --windows-kit \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.19041.0\\x64\" --dev-cert"
   },
   "author": "Studio Tomippe",
@@ -42,12 +42,12 @@
       }
     ],
     "directories": {
-      "buildResources": "build",
-      "output": "dist"
+      "buildResources": "mac",
+      "output": "mac/build"
     },
     "mac": {
       "category": "public.app-category.utilities",
-      "icon": "build/icon.icns",
+      "icon": "mac/icon.icns",
       "helperBundleId": "jp.tomippe.pathconverter.helper",
       "helperEHBundleId": "jp.tomippe.pathconverter.helper.eh",
       "helperGPUBundleId": "jp.tomippe.pathconverter.helper.gpu",
@@ -81,10 +81,10 @@
       }
     },
     "mas": {
-      "provisioningProfile": "build/PathConverter.provisionprofile",
-      "entitlements": "build/entitlements.mas.plist",
-      "entitlementsInherit": "build/entitlements.mas.inherit.plist",
-      "entitlementsLoginHelper": "build/entitlements.mas.helper.plist",
+      "provisioningProfile": "mac/PathConverter.provisionprofile",
+      "entitlements": "mac/entitlements.mas.plist",
+      "entitlementsInherit": "mac/entitlements.mas.inherit.plist",
+      "entitlementsLoginHelper": "mac/entitlements.mas.helper.plist",
       "helperBundleId": "jp.tomippe.pathconverter.helper",
       "helperEHBundleId": "jp.tomippe.pathconverter.helper.eh",
       "helperGPUBundleId": "jp.tomippe.pathconverter.helper.gpu",
@@ -101,7 +101,7 @@
           ]
         }
       ],
-      "icon": "build/icon.ico"
+      "icon": "windows/resources/icon.ico"
     }
   }
 }

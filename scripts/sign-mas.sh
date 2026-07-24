@@ -4,14 +4,14 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR/.."
 
-APP="${1:-dist/mas-universal/Path Converter.app}"
+APP="${1:-mac/build/mas-universal/Path Converter.app}"
 IDENTITY="${MAS_SIGN_IDENTITY:-}"
 BUNDLE_ID="${MAS_BUNDLE_ID:-jp.tomippe.pathconverter}"
 KEYCHAIN="${CSC_KEYCHAIN:-$HOME/Library/Keychains/login.keychain-db}"
-ENT_MAIN="build/entitlements.mas.plist"
-ENT_INHERIT="build/entitlements.mas.inherit.plist"
-ENT_HELPER="build/entitlements.mas.helper.plist"
-PROVISION="build/PathConverter.provisionprofile"
+ENT_MAIN="mac/entitlements.mas.plist"
+ENT_INHERIT="mac/entitlements.mas.inherit.plist"
+ENT_HELPER="mac/entitlements.mas.helper.plist"
+PROVISION="mac/PathConverter.provisionprofile"
 MAIN_EXE="Path Converter"
 
 [ -d "$APP" ] || { echo "❌ $APP not found"; exit 1; }

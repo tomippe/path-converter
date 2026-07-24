@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Mac App Store 用プロビジョニングプロファイルを API で再作成し、build/ へ保存する。
+# Mac App Store 用プロビジョニングプロファイルを API で再作成し、mac/ へ保存する。
 # Usage: ruby scripts/asc-refresh-mac-profile.rb
 
 require "base64"
@@ -12,7 +12,7 @@ require "openssl"
 require "uri"
 
 BUNDLE_ID = "jp.tomippe.pathconverter"
-OUT_PATH = File.expand_path("../build/PathConverter.provisionprofile", __dir__)
+OUT_PATH = File.expand_path("../mac/PathConverter.provisionprofile", __dir__)
 PROFILE_NAME = "PathConverter_AppStore"
 
 def load_env_file(path)

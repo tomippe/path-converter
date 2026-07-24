@@ -10,27 +10,46 @@ alwaysApply: true
 
 ## 概要
 
-- **種別**: Electron アプリ（Mac App Store版 + Windows Store版）
-- **Mac ビルド**: App Store版のみ（`npm run build:mas-signed` → PKG → App Store Connect）
-- **Windows ビルド**: `build.ps1`（Windows PC・手動）→ Microsoft Store
-- **Mac App Store プロファイル更新**: ビルド時に `ruby scripts/asc-refresh-mac-profile.rb` を自動実行（FaviconApplier / POUCHES と同様。手動で証明書を作る必要なし）
+- **種別**: Electron アプリ（Mac App Store + Windows Microsoft Store）
+- **Mac ビルド**: `./build.sh`（`mac/build.sh` に委譲）
+- **Windows ビルド**: `windows/build.ps1`（Windows PC・手動）
+- **Mac App Store プロファイル更新**: ビルド時に `ruby scripts/asc-refresh-mac-profile.rb` を自動実行
+
+## ディレクトリ構成（disk-monitor 型）
+
+| 種別 | パス |
+|------|------|
+| Mac リソース | `mac/`（icon, entitlements, provisionprofile, *.lproj） |
+| **Mac 成果物** | **`mac/build/`**（`mas-universal/Path Converter.app`, `PathConverter.pkg`） |
+| Windows リソース | `windows/resources/`（manifest, icon.ico, Store ロゴ） |
+| **Windows 成果物** | **`windows/build/`**（`win-unpacked/`, `msix/` 等） |
+| Mac 版番号 | ルート `version.txt` |
+| Windows 版番号 | `windows/version.txt` |
+
+## ビルドコマンド
+
+| コマンド | 内容 |
+|---|---|
+| `./build.sh -app` | Mac MAS ビルドのみ |
+| `./build.sh` | Mac MAS → PKG → App Store Connect → manifest → 版上げ → Git |
+| `windows/build.ps1` | Windows EXE + MSIX |
+| `windows/build.ps1 -Exe` | unpacked のみ |
 
 ## 固有設定
 
-- PKG: `PathConverter.pkg`（App Store版）
-- ビルド前にキャッシュ全削除 + `npm install --force`
-- アイコン: `build/icon.png` から `iconutil` で `.icns` 生成
-- ビルド成果物: `dist/`
-- 直接配布版（Developer ID / ZIP）は廃止。サーバー上の `path-converter_mac.zip` も削除する
+- PKG: `mac/build/PathConverter.pkg`
+- ビルド前に `mac/build/` 削除 + `npm install --force`
+- アイコン: `mac/icon.png` から `iconutil` で `mac/icon.icns` 生成
+- 直接配布版（Developer ID / ZIP）は廃止
 
 ## エンタイトルメント
 
-- `build/entitlements.mas.plist` — App Store版 親プロセス（サンドボックス + Electron必須権限 + ファイルアクセス）
-- `build/entitlements.mas.inherit.plist` — App Store版 子プロセス（サンドボックス + inherit + JIT）
-- `build/entitlements.mas.helper.plist` — App Store版 ログインヘルパー
+- `mac/entitlements.mas.plist` — App Store版 親プロセス
+- `mac/entitlements.mas.inherit.plist` — App Store版 子プロセス
+- `mac/entitlements.mas.helper.plist` — App Store版 ログインヘルパー
 
 ## App Store版の署名
 
-- アプリ署名: `Apple Distribution: TOMIHIDE OTA (4U63Y3X98K)`（ハッシュ指定）
+- アプリ署名: `scripts/sign-mas.sh`（プロファイル内 Apple Distribution を解決）
 - PKGインストーラ: `3rd Party Mac Developer Installer: TOMIHIDE OTA (4U63Y3X98K)`
-- プロビジョニングプロファイル: `build/PathConverter.provisionprofile`（要手動配置）
+- プロビジョニング: `mac/PathConverter.provisionprofile`
