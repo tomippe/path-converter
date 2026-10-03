@@ -57,7 +57,7 @@
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleDevelopmentRegion": "ja",
         "CFBundleLocalizations": ["ja", "en", "zh-Hans"],
-        "NSHumanReadableCopyright": "Copyright © 2025 tomippe. All rights reserved.",
+        "NSHumanReadableCopyright": "Copyright © 2025 Studio Tomippe. All rights reserved.",
         "CFBundleDocumentTypes": [
           {
             "CFBundleTypeName": "All Files",
